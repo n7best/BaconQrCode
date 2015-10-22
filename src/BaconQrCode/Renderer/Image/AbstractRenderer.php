@@ -67,7 +67,14 @@ abstract class AbstractRenderer implements RendererInterface
      * @var integer
      */
     protected $blockSize;
-
+    
+    /**
+     * radius of each individual block.
+     *
+     * @var integer
+     */
+    protected $blockRadius;
+    
     /**
      * Background color.
      *
@@ -247,7 +254,31 @@ abstract class AbstractRenderer implements RendererInterface
 
         return $this->foregroundColor;
     }
+    
+    /**
+     * Sets block radius.
+     *
+     * @param  interger $radius
+     * @return AbstractRenderer
+     */
+    public function setBlockRadius($radius)
+    {
+        $this->blockRadius = $radius;
+        return $this;
+    }
+    /**
+     * Gets block radius.
+     *
+     * @return blockradius
+     */
+    public function getBlockRadius()
+    {
+        if ($this->blockRadius === null) {
+            $this->blockRadius = 0;
+        }
 
+        return $this->blockRadius;
+    }
     /**
      * Adds a decorator to the renderer.
      *
@@ -316,7 +347,7 @@ abstract class AbstractRenderer implements RendererInterface
         for ($inputY = 0, $outputY = $topPadding; $inputY < $inputHeight; $inputY++, $outputY += $multiple) {
             for ($inputX = 0, $outputX = $leftPadding; $inputX < $inputWidth; $inputX++, $outputX += $multiple) {
                 if ($input->get($inputX, $inputY) === 1) {
-                    $this->drawBlock($outputX, $outputY, 'foreground');
+                    $this->drawBlock($outputX, $outputY, 'foreground',$this->getBlockRadius());
                 }
             }
         }
