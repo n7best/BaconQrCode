@@ -98,16 +98,21 @@ class Svg extends AbstractRenderer
      * @param  string  $colorId
      * @return void
      */
-    public function drawBlock($x, $y, $colorId)
+    public function drawBlock($x, $y, $colorId,$radius=0)
     {
         $use = $this->svg->addChild('use');
         $use->addAttribute('x', $x);
         $use->addAttribute('y', $y);
+        if($radius > 0){
+            $use->addAttribute('rx',$radius);
+            $use->addAttribute('ry', $radius);
+        }
         $use->addAttribute(
             'xlink:href',
             $this->getRectPrototypeId($colorId),
             'http://www.w3.org/1999/xlink'
         );
+        
     }
 
     /**
