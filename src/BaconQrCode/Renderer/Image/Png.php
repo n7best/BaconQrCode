@@ -88,16 +88,16 @@ class Png extends AbstractRenderer
      * @param  string  $colorId
      * @return void
      */
-    public function drawBlock($x, $y, $colorId)
+    public function drawBlock($x, $y, $colorId,$radius=0)
     {
-        imagefilledrectangle(
-            $this->image,
-            $x,
-            $y,
-            $x + $this->blockSize - 1,
-            $y + $this->blockSize - 1,
-            $this->colors[$colorId]
-        );
+        // draw rectangle without corners
+        imagefilledrectangle($this->image, $x+$radius, $y, $x + $this->blockSize - 1-$radius, $y + $this->blockSize - 1, $this->colors[$colorId]);
+        imagefilledrectangle($this->image, $x, $y+$radius, $x + $this->blockSize - 1, $y + $this->blockSize - 1-$radius, $this->colors[$colorId]);
+        // draw circled corners
+        imagefilledellipse($this->image, $x+$radius, $y+$radius, $radius*2, $radius*2, $this->colors[$colorId]);
+        imagefilledellipse($this->image, $x + $this->blockSize - 1-$radius, $y+$radius, $radius*2, $radius*2, $this->colors[$colorId]);
+        imagefilledellipse($this->image, $x+$radius, $y + $this->blockSize - 1-$radius, $radius*2, $radius*2, $this->colors[$colorId]);
+        imagefilledellipse($this->image, $x + $this->blockSize - 1-$radius, $y + $this->blockSize - 1-$radius, $radius*2, $radius*2, $this->colors[$colorId]);
     }
 
     /**
